@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student List</title>
+</head>
+
+<body>
+
+    <h1>Meal Menu</h1>
+
+    <button onclick="loadStudents()">Load Students</button>
+
+    <ul id="studentList"></ul>
+
+    <script>
+        async function loadStudents(){
+            const response = await fetch('/students');
+            const students = await response.json();
+            const list = document.getElementById('studentList');
+
+            list.innerHTML = "";
+
+            students.forEach(student => {
+                const item = document.createElement("li")
+                item.textContent = `${student.name} - ${student.course}`;
+                
+                list.appendChild(item);
+            });
+        }
+    </script>
+
+</body>
+</html>

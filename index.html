@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meal Menu</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 50%;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        input {
+            padding: 8px;
+            margin-right: 8px;
+        }
+        button {
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+        .search-bar {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Meal Menu</h2>
+    <div class="search-bar">
+        <input type="text" id="search-id" placeholder="Enter Meal ID">
+        <button onclick="findMeal()">Find Meal</button>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody id="meal-table"></tbody>
+    </table>
+
+    <script>
+        let allMeals = []
+
+        fetch('/api/meals')
+            .then(res => res.json())
+            .then(meals => {
+                allMeals = meals
+                renderTable(meals)
+            })
+
+        function renderTable(meals) {
+            const tbody = document.getElementById('meal-table')
+            tbody.innerHTML = ''
+            meals.forEach(meal => {
+                tbody.innerHTML += `<tr><td>${meal.id}</td><td>${meal.name}</td><td>${meal.price}</td></tr>`
+            })
+        }
+
+        function findMeal() {
+            const query = document.getElementById('search-id').value
+            const filtered = query ? allMeals.filter(meal => meal.id === Number(query)) : allMeals
+            renderTable(filtered)
+        }
+    </script>
+</body>
+</html>

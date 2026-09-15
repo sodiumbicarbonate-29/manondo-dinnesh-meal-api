@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student List</title>
+</head>
+
+<body>
+
+    <h1>Meal Menu</h1>
+
+
+    <script>
+        async function loadStudents(){
+            const response = await fetch('/api/menu');
+            const students = await response.json();
+            const list = document.getElementById('menuList');
+
+            list.innerHTML = "";
+
+            students.forEach(menu => {
+                const item = document.createElement("li")
+                item.textContent = `${menu.name} - ${menu.price}`;
+                
+                list.appendChild(item);
+            });
+        }
+    </script>
+
+</body>
+</html>
